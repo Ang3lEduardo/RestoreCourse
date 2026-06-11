@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import type { Product } from "../../app/models/product";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { Divider, Table, TableBody, TableContainer, TextField, Button, TableRow, TableCell } from "@mui/material";
+//import type { Product } from "../../app/models/product";
+//import Grid from "@mui/material/Grid";
+//import Typography from "@mui/material/Typography";
+import { Divider, Grid, Table, Typography, TableBody, TableContainer, TextField, Button, TableRow, TableCell } from "@mui/material";
+import { useFetchProductDetailsQuery } from "./catalogApi";
 
 export default function ProductDetails() {
   const {id} = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
 
-  useEffect(() => {
-    fetch(`https://localhost:5001/api/products/${id}`)
-      .then(response => response.json())
-      .then(data => setProduct(data))
-      .catch(error => console.error('Error fetching product:', error));
-  }, [id]);
+  const {data: product, isLoading} = useFetchProductDetailsQuery(id ? +id : 0);
 
-  if(!product) return <h2>Loading...</h2>;
+  // const [product, setProduct] = useState<Product | null>(null);
+
+  // useEffect(() => {
+  //   fetch(`https://localhost:5001/api/products/${id}`)
+  //     .then(response => response.json())
+  //     .then(data => setProduct(data))
+  //     .catch(error => console.error('Error fetching product:', error));
+  // }, [id]);
+
+   if(!product || isLoading) return <h2>Loading...</h2>;
 
   const productDetails = [
     {label: 'Name', value: product.name},
