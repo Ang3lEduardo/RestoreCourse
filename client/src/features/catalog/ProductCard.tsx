@@ -27,7 +27,7 @@ export default function ProductCard({product}: Props) {
                 {product.name}
             </Typography>
             <Typography variant="h6" sx={{ color: 'secondary.main'}}>
-                ${currencyFormat(product.price)}
+                {currencyFormat(product.price)}
             </Typography>
         </CardContent>
         <CardActions sx={{justifyContent:'space-between'}}>
