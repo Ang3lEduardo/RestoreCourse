@@ -1,6 +1,8 @@
 using System;
 using API.DTOs;
 using API.Entities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
@@ -23,5 +25,14 @@ namespace API.Extensions
                 }).ToList()
             };
         }
+
+       public static async Task<Basket> GetBasketWithItems(this IQueryable<Basket> query,
+        string? baketId){
+        return await query
+                .Include(x => x.Items)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefaultAsync(x => x.BasketId == baketId) 
+                ?? throw new Exception("Cannot get cart") ;
+       }
     }
 }

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { router } from "../routes/Routes";
 
 const customBaseQuery = fetchBaseQuery({
-    baseUrl: 'https://localhost:5001/api/',
+    baseUrl: import.meta.env.VITE_API_URL, //'https://localhost:5001/api/',
     credentials: 'include'
 });
 
