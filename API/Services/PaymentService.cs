@@ -9,6 +9,7 @@ namespace API.Services
     {
         public async Task<PaymentIntent> CreateOrUpdatePaymentIntent(Basket basket)
         {
+            DotNetEnv.Env.Load();
             StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
             //config["StripeSettings:SecretKey"];
 
