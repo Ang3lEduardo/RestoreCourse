@@ -14,8 +14,7 @@ namespace API.Data.Migrations
                 name: "AddressId",
                 table: "AspNetUsers",
                 type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Address",
