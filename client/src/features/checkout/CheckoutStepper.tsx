@@ -3,7 +3,6 @@ import { AddressElement, PaymentElement, useElements, useStripe } from "@stripe/
 import { useState } from "react"
 import Review from "./Review";
 import { useFetchAddressQuery, useUpdateUserAddressMutation } from "../account/accountApi";
-import type { Address } from "../../app/models/user";
 import type { StripeAddressElementChangeEvent } from "@stripe/stripe-js/dist/stripe-js/elements/address";
 import type { StripePaymentElementChangeEvent } from "@stripe/stripe-js/dist/stripe-js/elements/payment";
 import { useBasket } from "../../lib/hooks/useBasket";
@@ -18,17 +17,22 @@ const steps = ['Address', 'Payment', 'Review']
 export default function CheckoutStepper() {
   const [activeStep, setActiveStep] = useState(0);
   const [createOrder] = useCreateOrderMutation();
-  const {data: {name,...restAddress} = {} as Address, isLoading} = useFetchAddressQuery();
+  const {data, isLoading} = useFetchAddressQuery();
   const [updateAddress] = useUpdateUserAddressMutation();
   const [saveAddressChecked, setSaveAddressChecked] = useState(false);
   const elements = useElements();
   const stripe = useStripe();
   const [addressComplete, setAddressComplete] = useState(false);
   const [paymentComplete, setPaymentComplete] = useState(false);
-  const {basket,total} = useBasket();
+  const {basket,total,clearBasket} = useBasket();
   const [confirmationToken, setConfirmationToken] = useState<ConfirmationToken | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+
+  let name, restAddress;
+  if(data){
+   ({name, ...restAddress} = data);
+  }
 
   const handleNext = async () => {
      if(activeStep === 0 && saveAddressChecked && elements){
@@ -71,7 +75,7 @@ export default function CheckoutStepper() {
 
       if(paymentResult?.paymentIntent?.status === 'succeeded') { 
          navigate('/checkout/success',{state:orderResult});
-         //clearBasket()
+         clearBasket();
       }
       else if (paymentResult?.error) {
          throw new Error(paymentResult.error.message);

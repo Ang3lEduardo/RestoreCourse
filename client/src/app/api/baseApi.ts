@@ -14,7 +14,7 @@ type ErrorResponse = | string | { title: string } | {errors: string[]} ;
 export const baseQueryWithErrorHandling = async (args:string | FetchArgs, api:BaseQueryApi,
     extraOptions: object) => {
     api.dispatch({type: 'ui/setLoading'});
-    await sleep();
+    if(import.meta.env.DEV) await sleep();
     const result = await customBaseQuery(args, api, extraOptions);
     api.dispatch({type: 'ui/stopLoading'});
     if(result.error) {
