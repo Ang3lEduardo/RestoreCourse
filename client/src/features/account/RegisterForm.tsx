@@ -52,12 +52,12 @@ export default function RegisterForm() {
                          {...register('password')}
                      error={!!errors.password}
                      helperText={errors.password?.message}/>
-                    <Button disabled={isLoading || !isValid} variant="contained">
+                    <Button type="submit" disabled={isLoading || !isValid} variant="contained">
                          Register
                     </Button>
                     <Typography sx={{textAlign:'center'}}>
                          Don't have an account?
-                         <Typography sx={{ml:3}} component={NavLink} to='/register' color='primary'>
+                         <Typography sx={{ml:3}} component={NavLink} to='/login' color='primary'>
                               Sign up here
                          </Typography>
                     </Typography>

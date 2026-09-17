@@ -43,7 +43,7 @@ export default function LoginForm() {
                          {...register('password')}
                      error={!!errors.password}
                      helperText={errors.password?.message}/>
-                    <Button disabled={isLoading} variant="contained">
+                    <Button type="submit" disabled={isLoading} variant="contained">
                          Sign in
                     </Button>
                     <Typography sx={{textAlign:'center'}}>
